@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Kitchen {
+  id        Int       @id @default(autoincrement())
+  name      String
+  username  String    @unique
+  password  String
+  products  Product[]
+  subOrders SubOrder[]
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
+}
+
+model Product {
+  id          Int         @id @default(autoincrement())
+  name        String
+  price       Float
+  description String?
+  image       String?     @default("/placeholder.png")
+  isAvailable Boolean     @default(true)
+  kitchenId   Int
+  kitchen     Kitchen     @relation(fields: [kitchenId], references: [id])
+  categoryId  Int?
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+}
+
+model Order {
+  id          Int         @id @default(autoincrement())
+  tableNumber String
+  status      String      @default("PENDING") // PENDING, CONFIRMED, COMPLETED
+  totalAmount Float       @default(0.0)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  items       OrderItem[]
+  subOrders   SubOrder[]
+}
+
+model SubOrder {
+  id        Int         @id @default(autoincrement())
+  status    String      @default("RECEIVED") // RECEIVED, PREPARING, READY, SERVED
+  orderId   Int
+  order     Order       @relation(fields: [orderId], references: [id])
+  kitchenId Int
+  kitchen   Kitchen     @relation(fields: [kitchenId], references: [id])
+  items     OrderItem[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  quantity   Int
+  price      Float
+  notes      String?
+  orderId    Int
+  order      Order    @relation(fields: [orderId], references: [id])
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id])
+  subOrderId Int?
+  subOrder   SubOrder? @relation(fields: [subOrderId], references: [id])
+}

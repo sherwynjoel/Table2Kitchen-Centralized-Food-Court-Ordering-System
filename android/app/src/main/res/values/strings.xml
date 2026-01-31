@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Table2Kitchen</string>
+    <string name="title_activity_main">Table2Kitchen</string>
+    <string name="package_name">com.table2kitchen.app</string>
+    <string name="custom_url_scheme">com.table2kitchen.app</string>
+</resources>

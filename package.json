@@ -1,0 +1,41 @@
+{
+  "name": "table2kitchen",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "nodemon server.ts",
+    "build": "next build",
+    "start": "NODE_ENV=production ts-node server.ts",
+    "lint": "eslint"
+  },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.2",
+    "@capacitor/cli": "^8.0.2",
+    "@capacitor/core": "^8.0.2",
+    "@prisma/client": "^6.19.2",
+    "express": "^5.2.1",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "socket.io": "^4.8.3",
+    "socket.io-client": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "babel-plugin-react-compiler": "1.0.0",
+    "dotenv": "^17.2.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "nodemon": "^3.1.11",
+    "prisma": "^6.19.2",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5"
+  }
+}
