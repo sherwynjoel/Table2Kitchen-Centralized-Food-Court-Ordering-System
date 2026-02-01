@@ -21,7 +21,7 @@ export default function AdminMenu() {
         // For MVP, I will hardcode the kitchen fetch or assume user knows ID.
         // IMPROVEMENT: Fetch kitchens properly.
         // I'll add a quick fetch for kitchens here.
-        fetch('/api/kitchen/list').then(res => res.json()).then(setKitchens).catch(() => { });
+        fetch('/api/admin/kitchens').then(res => res.json()).then(setKitchens).catch(console.error);
     }, []);
 
     const handleDelete = async (id: number) => {
@@ -72,7 +72,7 @@ export default function AdminMenu() {
                             }}></div>
                             <div>
                                 <h3>{p.name}</h3>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--accent)' }}>{p.kitchen.name} • ${p.price}</div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--accent)' }}>{p.kitchen.name} • ₹{p.price}</div>
                             </div>
                         </div>
                         <div className="flex-col" style={{ gap: '0.5rem' }}>
@@ -98,10 +98,9 @@ export default function AdminMenu() {
 
                             <select name="kitchenId" defaultValue={editingProduct?.kitchenId} className="glass" required style={{ padding: '0.8rem', color: 'white', background: '#334155' }}>
                                 <option value="">Select Kitchen</option>
-                                {/* Fallback if no kitchens loaded, purely for initial MVP demo assuming IDs 1-3 exist from seed */}
-                                <option value="1">Burger Joint</option>
-                                <option value="2">Pizza Palace</option>
-                                <option value="3">Sushi Bar</option>
+                                {kitchens.map((k: any) => (
+                                    <option key={k.id} value={k.id}>{k.name}</option>
+                                ))}
                             </select>
 
                             <div className="flex-between" style={{ marginTop: '1rem' }}>

@@ -65,10 +65,10 @@ function CartContent() {
                             <div>
                                 <h3 style={{ fontSize: '1.1rem' }}>{item.name}</h3>
                                 <div style={{ fontSize: '0.8rem', color: 'var(--accent)' }}>{item.kitchenName}</div>
-                                <div style={{ marginTop: '0.5rem' }}>${item.price.toFixed(2)} x {item.quantity}</div>
+                                <div style={{ marginTop: '0.5rem' }}>₹{item.price.toFixed(2)} x {item.quantity}</div>
                             </div>
                             <div className="flex-center" style={{ gap: '1rem' }}>
-                                <div style={{ fontWeight: 'bold' }}>${(item.price * item.quantity).toFixed(2)}</div>
+                                <div style={{ fontWeight: 'bold' }}>₹{(item.price * item.quantity).toFixed(2)}</div>
                                 <button onClick={() => removeFromCart(item.id)} className="btn btn-ghost" style={{ color: 'var(--error)' }}>
                                     Remove
                                 </button>
@@ -80,7 +80,7 @@ function CartContent() {
                         <div className="flex-between" style={{ marginBottom: '1rem' }}>
                             <span style={{ fontSize: '1.2rem' }}>Total</span>
                             <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
-                                ${totalAmount.toFixed(2)}
+                                ₹{totalAmount.toFixed(2)}
                             </span>
                         </div>
                         <button

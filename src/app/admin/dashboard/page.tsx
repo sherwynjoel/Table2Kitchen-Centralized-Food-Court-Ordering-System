@@ -63,7 +63,7 @@ export default function AdminDashboard() {
                 <div className="glass-card flex-col">
                     <h3 style={{ color: 'var(--text-secondary)' }}>Total Revenue</h3>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--success)' }}>
-                        ${stats.revenue.toFixed(2)}
+                        ₹{stats.revenue.toFixed(2)}
                     </div>
                 </div>
                 <div className="glass-card flex-col">

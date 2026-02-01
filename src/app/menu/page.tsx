@@ -41,7 +41,7 @@ function MenuContent() {
                     className="glass-card flex-center"
                     style={{ padding: '0.8rem', cursor: 'pointer', position: 'relative' }}
                 >
-                    🛒 <span style={{ fontWeight: 'bold', marginLeft: '0.5rem' }}>${totalAmount.toFixed(2)}</span>
+                    🛒 <span style={{ fontWeight: 'bold', marginLeft: '0.5rem' }}>₹{totalAmount.toFixed(2)}</span>
                     {cartCount > 0 && (
                         <span style={{
                             position: 'absolute', top: '-5px', right: '-5px',
@@ -70,27 +70,65 @@ function MenuContent() {
             </div>
 
             {/* Grid */}
-            <div className="grid-cols-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
-                {filteredProducts.map(product => (
-                    <div key={product.id} className="glass-card flex-col" style={{ gap: '0.5rem', justifyContent: 'space-between' }}>
-                        <div style={{
-                            backgroundColor: '#fff', borderRadius: '0.5rem', height: '120px',
-                            backgroundImage: `url(${product.image})`, backgroundSize: 'cover', backgroundPosition: 'center'
-                        }}></div>
-                        <div>
-                            <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 'bold' }}>{product.kitchen.name}</div>
-                            <h3 style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>{product.name}</h3>
-                            <p style={{ fontSize: '0.85rem', lineHeight: '1.2', margin: '0.2rem 0' }}>{product.description}</p>
+            {/* Grid */}
+            {activeTab === 'All' ? (
+                <div className="flex-col" style={{ gap: '3rem' }}>
+                    {uniqueKitchens.filter((k: any) => k !== 'All').map((kitchen: any) => {
+                        const items = products.filter(p => p.kitchen.name === kitchen);
+                        if (items.length === 0) return null;
+                        return (
+                            <div key={kitchen} className="animate-in">
+                                <div className="flex-between" style={{ marginBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '0.5rem' }}>
+                                    <h2 style={{ fontSize: '1.5rem', color: 'var(--primary)' }}>{kitchen}</h2>
+                                    <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>{items.length} items</span>
+                                </div>
+                                <div className="grid-cols-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
+                                    {items.map(product => (
+                                        <div key={product.id} className="glass-card flex-col" style={{ gap: '0.5rem', justifyContent: 'space-between' }}>
+                                            <div style={{
+                                                backgroundColor: '#fff', borderRadius: '0.5rem', height: '120px',
+                                                backgroundImage: `url(${product.image})`, backgroundSize: 'cover', backgroundPosition: 'center'
+                                            }}></div>
+                                            <div>
+                                                <h3 style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>{product.name}</h3>
+                                                <p style={{ fontSize: '0.85rem', lineHeight: '1.2', margin: '0.2rem 0' }}>{product.description}</p>
+                                            </div>
+                                            <div className="flex-between">
+                                                <span style={{ fontWeight: 'bold' }}>₹{product.price.toFixed(2)}</span>
+                                                <button onClick={() => setSelectedProduct(product)} className="btn btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem' }}>
+                                                    + Add
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )
+                    })}
+                </div>
+            ) : (
+                <div className="grid-cols-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))' }}>
+                    {filteredProducts.map(product => (
+                        <div key={product.id} className="glass-card flex-col" style={{ gap: '0.5rem', justifyContent: 'space-between' }}>
+                            <div style={{
+                                backgroundColor: '#fff', borderRadius: '0.5rem', height: '120px',
+                                backgroundImage: `url(${product.image})`, backgroundSize: 'cover', backgroundPosition: 'center'
+                            }}></div>
+                            <div>
+                                <div style={{ fontSize: '0.8rem', color: 'var(--accent)', fontWeight: 'bold' }}>{product.kitchen.name}</div>
+                                <h3 style={{ fontSize: '1rem', color: 'var(--text-primary)' }}>{product.name}</h3>
+                                <p style={{ fontSize: '0.85rem', lineHeight: '1.2', margin: '0.2rem 0' }}>{product.description}</p>
+                            </div>
+                            <div className="flex-between">
+                                <span style={{ fontWeight: 'bold' }}>₹{product.price.toFixed(2)}</span>
+                                <button onClick={() => setSelectedProduct(product)} className="btn btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem' }}>
+                                    + Add
+                                </button>
+                            </div>
                         </div>
-                        <div className="flex-between">
-                            <span style={{ fontWeight: 'bold' }}>${product.price.toFixed(2)}</span>
-                            <button onClick={() => setSelectedProduct(product)} className="btn btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.9rem' }}>
-                                + Add
-                            </button>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    ))}
+                </div>
+            )}
 
             {selectedProduct && (
                 <div style={{
@@ -100,7 +138,7 @@ function MenuContent() {
                     <div className="glass-card" style={{ width: '350px', background: '#1e293b' }}>
                         <h3>Add to Order</h3>
                         <h2 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>{selectedProduct.name}</h2>
-                        <p style={{ marginBottom: '1rem' }}>${selectedProduct.price.toFixed(2)}</p>
+                        <p style={{ marginBottom: '1rem' }}>₹{selectedProduct.price.toFixed(2)}</p>
 
                         <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>Special Instructions</label>
                         <textarea

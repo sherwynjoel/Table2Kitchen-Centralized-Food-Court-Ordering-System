@@ -25,38 +25,48 @@ export async function POST(req: Request) {
         });
 
         // Transaction: Create Order -> Create SubOrders -> Create OrderItems
-        const order = await prisma.order.create({
-            data: {
-                tableNumber: tableNumber.toString(),
-                totalAmount,
-                status: 'PENDING',
-                subOrders: {
-                    create: Object.keys(kitchenGroups).map(kitchenId => ({
-                        kitchenId: parseInt(kitchenId),
-                        status: 'RECEIVED',
-                        items: {
-                            create: kitchenGroups[parseInt(kitchenId)].map(item => ({
-                                productId: item.id,
-                                quantity: item.quantity,
-                                price: item.price,
-                                notes: item.notes || ''
-                                // Note: We need to link to Order as well, but nested create handles it conceptually
-                            }))
-                        }
-                    }))
-                },
-                items: {
-                    create: items.map((item: any) => ({
+        const order = await prisma.$transaction(async (tx) => {
+            // 1. Create the Main Order
+            const newOrder = await tx.order.create({
+                data: {
+                    tableNumber: tableNumber.toString(),
+                    totalAmount,
+                    status: 'PENDING'
+                }
+            });
+
+            const createdSubOrders = [];
+
+            // 2. Create SubOrders and Items for each kitchen
+            for (const kitchenIdStr of Object.keys(kitchenGroups)) {
+                const kitchenId = parseInt(kitchenIdStr);
+                const groupItems = kitchenGroups[kitchenId];
+
+                // Create SubOrder
+                const subOrder = await tx.subOrder.create({
+                    data: {
+                        kitchenId: kitchenId,
+                        orderId: newOrder.id,
+                        status: 'RECEIVED'
+                    }
+                });
+
+                createdSubOrders.push(subOrder);
+
+                // Create OrderItems linked to BOTH Order and SubOrder
+                await tx.orderItem.createMany({
+                    data: groupItems.map(item => ({
                         productId: item.id,
                         quantity: item.quantity,
                         price: item.price,
-                        notes: item.notes || ''
+                        notes: item.notes || '',
+                        orderId: newOrder.id,
+                        subOrderId: subOrder.id
                     }))
-                }
-            },
-            include: {
-                subOrders: true
+                });
             }
+
+            return newOrder;
         });
 
         // Notify Kitchens via Socket (Mock: In real app, emit to specific rooms)

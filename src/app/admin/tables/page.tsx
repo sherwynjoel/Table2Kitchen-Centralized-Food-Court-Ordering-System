@@ -44,7 +44,7 @@ export default function AdminTables() {
                         </div>
 
                         <div className="flex-between" style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '1rem' }}>
-                            <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Bill: ${t.totalAmount.toFixed(2)}</span>
+                            <span style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>Bill: ₹{t.totalAmount.toFixed(2)}</span>
                         </div>
                     </div>
                 ))}

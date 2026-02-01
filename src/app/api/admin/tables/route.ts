@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
     try {
@@ -46,7 +47,9 @@ export async function GET() {
             }
         });
 
-        const tables = Object.values(tablesMap).sort((a: any, b: any) => parseInt(a.tableNumber) - parseInt(b.tableNumber));
+        const tables = Object.values(tablesMap).sort((a: any, b: any) =>
+            a.tableNumber.toString().localeCompare(b.tableNumber.toString(), undefined, { numeric: true })
+        );
 
         return NextResponse.json(tables);
     } catch (error) {
