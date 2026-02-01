@@ -30,7 +30,7 @@ export default function AdminLogin() {
                         placeholder="Enter Admin PIN"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
-                        style={{ padding: '0.8rem', outline: 'none', color: 'white', width: '100%', boxSizing: 'border-box', textAlign: 'center' }}
+                        style={{ padding: '0.8rem', outline: 'none', width: '100%', boxSizing: 'border-box', textAlign: 'center' }}
                     />
                     {error && <p style={{ color: 'var(--error)', fontSize: '0.9rem' }}>{error}</p>}
                     <button className="btn btn-primary" type="submit" style={{ width: '100%' }}>Unlock Panel</button>

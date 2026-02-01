@@ -62,52 +62,52 @@ export default function AdminDashboard() {
             <div className="grid-cols-3" style={{ marginBottom: '2rem' }}>
                 <div className="glass-card flex-col">
                     <h3 style={{ color: 'var(--text-secondary)' }}>Total Revenue</h3>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--success)' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
                         ₹{stats.revenue.toFixed(2)}
                     </div>
                 </div>
                 <div className="glass-card flex-col">
                     <h3 style={{ color: 'var(--text-secondary)' }}>Total Orders</h3>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
                         {stats.orders}
                     </div>
                 </div>
                 <div className="glass-card flex-col">
                     <h3 style={{ color: 'var(--text-secondary)' }}>Active Kitchens</h3>
-                    <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+                    <div style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
                         {stats.kitchens}
                     </div>
                 </div>
             </div>
 
             {/* Management Links */}
-            <div className="grid-cols-2">
+            <div className="grid-cols-3" style={{ gap: '1rem' }}>
                 <div
                     onClick={() => router.push('/admin/menu')}
                     className="glass-card flex-center flex-col"
-                    style={{ cursor: 'pointer', height: '200px', border: '1px solid var(--primary)' }}
+                    style={{ cursor: 'pointer', height: '200px', textAlign: 'center' }}
                 >
-                    <span style={{ fontSize: '3rem', marginBottom: '1rem' }}>🍔</span>
+                    <span style={{ fontSize: '3rem', marginBottom: '1rem', filter: 'grayscale(100%)' }}>🍔</span>
                     <h2>Manage Menu</h2>
-                    <p>Add products, update prices, edit availability</p>
+                    <p>Add products, update prices</p>
                 </div>
                 <div
                     onClick={() => router.push('/admin/kitchens')}
                     className="glass-card flex-center flex-col"
-                    style={{ cursor: 'pointer', height: '200px', border: '1px solid var(--secondary)' }}
+                    style={{ cursor: 'pointer', height: '200px', textAlign: 'center' }}
                 >
-                    <span style={{ fontSize: '3rem', marginBottom: '1rem' }}>👨‍🍳</span>
+                    <span style={{ fontSize: '3rem', marginBottom: '1rem', filter: 'grayscale(100%)' }}>👨‍🍳</span>
                     <h2>Manage Kitchens</h2>
-                    <p>Create new kitchen logins, view staff performance</p>
+                    <p>Create new kitchen logins</p>
                 </div>
                 <div
                     onClick={() => router.push('/admin/tables')}
                     className="glass-card flex-center flex-col"
-                    style={{ cursor: 'pointer', height: '200px', border: '1px solid var(--success)' }}
+                    style={{ cursor: 'pointer', height: '200px', textAlign: 'center' }}
                 >
-                    <span style={{ fontSize: '3rem', marginBottom: '1rem' }}>🍽️</span>
+                    <span style={{ fontSize: '3rem', marginBottom: '1rem', filter: 'grayscale(100%)' }}>🍽️</span>
                     <h2>Live Tables</h2>
-                    <p>Monitor active tables and bills</p>
+                    <p>Monitor active tables</p>
                 </div>
             </div>
         </div>

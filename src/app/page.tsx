@@ -27,9 +27,8 @@ export default function Home() {
     installPrompt.prompt();
     installPrompt.userChoice.then((choiceResult: any) => {
       if (choiceResult.outcome === 'accepted') {
-        console.log('User accepted the install prompt');
+        setInstallPrompt(null);
       }
-      setInstallPrompt(null);
     });
   };
 
@@ -38,30 +37,29 @@ export default function Home() {
       height: '100vh',
       flexDirection: 'column',
       gap: '2rem',
-      backgroundImage: 'radial-gradient(circle at center, #1e293b 0%, #0f172a 100%)'
+      backgroundColor: 'var(--background)'
     }}>
-      <div className="glass-card flex-col" style={{ width: '400px', padding: '3rem', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '3rem', marginBottom: '0.5rem', background: 'linear-gradient(to right, #4ade80, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+      <div className="glass-card flex-col" style={{ width: '400px', padding: '3rem', textAlign: 'center', boxShadow: 'none', border: 'none' }}>
+        <h1 style={{ fontSize: '3.5rem', marginBottom: '0.5rem', color: 'var(--primary)' }}>
           Table2Kitchen
         </h1>
-        <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-          Experience the future of dining
+        <p style={{ color: 'var(--text-secondary)', marginBottom: '2.5rem', fontSize: '1.1rem' }}>
+          Seamless Dining Experience
         </p>
 
         <form onSubmit={handleStart} className="flex-col" style={{ gap: '1rem' }}>
           <input
             type="number"
             placeholder="Enter Table Number"
-            className="glass"
             value={tableNumber}
             onChange={(e) => setTableNumber(e.target.value)}
             style={{
-              padding: '1rem',
-              fontSize: '1.2rem',
+              padding: '1.25rem',
+              fontSize: '1.5rem',
               textAlign: 'center',
-              color: 'white',
-              borderRadius: '1rem',
-              border: '1px solid rgba(255,255,255,0.1)'
+              borderRadius: 'var(--radius)',
+              width: '100%',
+              boxSizing: 'border-box'
             }}
             required
             min="1"
@@ -69,7 +67,7 @@ export default function Home() {
           <button
             type="submit"
             className="btn btn-primary"
-            style={{ padding: '1rem', fontSize: '1.2rem', borderRadius: '1rem' }}
+            style={{ padding: '1rem', fontSize: '1.1rem', width: '100%' }}
           >
             Start Ordering
           </button>
@@ -79,22 +77,20 @@ export default function Home() {
       {/* App Controls */}
       <div className="flex-center" style={{ gap: '1rem' }}>
         {installPrompt && (
-          <button onClick={handleInstall} className="btn btn-ghost" style={{ border: '1px solid var(--primary)', color: 'var(--primary)' }}>
-            ⬇ Install App
+          <button onClick={handleInstall} className="btn btn-ghost">
+            Download App
           </button>
         )}
       </div>
 
-      {/* Footer Area for Kiosk */}
-      <div style={{ position: 'fixed', bottom: '20px', fontSize: '0.8rem', color: '#666', textAlign: 'center' }}>
-        <p>Kiosk Mode • Table2Kitchen v1.0</p>
-        <p style={{ marginTop: '0.5rem', color: 'var(--primary)' }}>
-          📱 Mobile Access: <strong>http://192.168.0.103:3000</strong>
-        </p>
-        {/* Admin Links */}
-        <div style={{ marginTop: '10px', opacity: 0.5 }}>
-          <span onClick={() => router.push('/admin/login')} style={{ cursor: 'pointer', marginRight: '1rem' }}>Admin</span>
-          <span onClick={() => router.push('/kitchen/login')} style={{ cursor: 'pointer' }}>Kitchen</span>
+      {/* Footer */}
+      <div style={{ position: 'fixed', bottom: '30px', fontSize: '0.85rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+        <p style={{ marginBottom: '0.5rem' }}>Kiosk Mode • v1.0</p>
+        <p style={{ marginBottom: '1rem' }}>Mobile Access: <strong>http://192.168.0.103:3000</strong></p>
+
+        <div style={{ opacity: 0.6, display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+          <span onClick={() => router.push('/admin/login')} style={{ cursor: 'pointer', textDecoration: 'underline' }}>Admin</span>
+          <span onClick={() => router.push('/kitchen/login')} style={{ cursor: 'pointer', textDecoration: 'underline' }}>Kitchen</span>
         </div>
       </div>
     </div>

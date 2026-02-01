@@ -63,20 +63,20 @@ function CartContent() {
                     {cart.map(item => (
                         <div key={item.id} className="glass-card flex-between">
                             <div>
-                                <h3 style={{ fontSize: '1.1rem' }}>{item.name}</h3>
-                                <div style={{ fontSize: '0.8rem', color: 'var(--accent)' }}>{item.kitchenName}</div>
+                                <h3 style={{ fontSize: '1.25rem' }}>{item.name}</h3>
+                                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{item.kitchenName}</div>
                                 <div style={{ marginTop: '0.5rem' }}>₹{item.price.toFixed(2)} x {item.quantity}</div>
                             </div>
                             <div className="flex-center" style={{ gap: '1rem' }}>
                                 <div style={{ fontWeight: 'bold' }}>₹{(item.price * item.quantity).toFixed(2)}</div>
-                                <button onClick={() => removeFromCart(item.id)} className="btn btn-ghost" style={{ color: 'var(--error)' }}>
+                                <button onClick={() => removeFromCart(item.id)} className="btn btn-ghost" style={{ color: 'var(--error)', borderColor: 'var(--border)' }}>
                                     Remove
                                 </button>
                             </div>
                         </div>
                     ))}
 
-                    <div className="glass-card" style={{ marginTop: '1rem', border: '1px solid var(--primary)' }}>
+                    <div className="glass-card" style={{ marginTop: '1rem', border: '1px solid var(--border-strong)' }}>
                         <div className="flex-between" style={{ marginBottom: '1rem' }}>
                             <span style={{ fontSize: '1.2rem' }}>Total</span>
                             <span style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>

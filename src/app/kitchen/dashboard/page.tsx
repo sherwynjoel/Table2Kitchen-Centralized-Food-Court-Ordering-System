@@ -77,25 +77,35 @@ export default function KitchenDashboard() {
             <div className="grid-cols-3" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
                 {orders.map(sub => (
                     <div key={sub.id} className="glass-card flex-col" style={{
-                        borderTop: `4px solid ${sub.status === 'READY' ? 'var(--success)' : 'var(--warning)'}`,
+                        borderTop: 'none',
+                        border: '1px solid var(--border)',
                         opacity: sub.status === 'SERVED' ? 0.5 : 1
                     }}>
                         <div className="flex-between">
                             <h2 style={{ fontSize: '1.5rem' }}>Table {sub.order.tableNumber}</h2>
-                            <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-                                #{sub.id} • {new Date(sub.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                            </span>
+                            <div className="flex-col" style={{ alignItems: 'flex-end', gap: '0' }}>
+                                <span className="badge" style={{
+                                    background: sub.status === 'READY' ? 'black' : 'white',
+                                    color: sub.status === 'READY' ? 'white' : 'black',
+                                    marginBottom: '0.25rem'
+                                }}>
+                                    {sub.status}
+                                </span>
+                                <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                    #{sub.id} • {new Date(sub.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </span>
+                            </div>
                         </div>
 
-                        <div style={{ padding: '1rem 0', borderTop: '1px solid rgba(255,255,255,0.1)', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                        <div style={{ padding: '1rem 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)' }}>
                             {sub.items.map((item: any) => (
                                 <div key={item.id} className="flex-col" style={{ marginBottom: '0.8rem' }}>
                                     <div className="flex-between">
                                         <span style={{ fontWeight: 'bold' }}>{item.quantity}x {item.product.name}</span>
                                     </div>
                                     {item.notes && (
-                                        <div style={{ fontSize: '0.85rem', color: '#facc15', marginTop: '0.2rem', paddingLeft: '0.5rem', borderLeft: '2px solid #facc15' }}>
-                                            ⚠️ {item.notes}
+                                        <div style={{ fontSize: '0.85rem', fontStyle: 'italic', marginTop: '0.2rem', paddingLeft: '0.5rem', borderLeft: '2px solid black' }}>
+                                            Note: {item.notes}
                                         </div>
                                     )}
                                 </div>
@@ -106,8 +116,7 @@ export default function KitchenDashboard() {
                             onClick={() => updateStatus(sub.id, sub.status, sub.orderId)}
                             className={`btn ${sub.status === 'READY' ? 'btn-ghost' : 'btn-primary'}`}
                             style={{
-                                width: '100%',
-                                background: sub.status === 'READY' ? 'var(--success)' : undefined
+                                width: '100%'
                             }}
                         >
                             {sub.status === 'RECEIVED' && 'Start Cooking'}
