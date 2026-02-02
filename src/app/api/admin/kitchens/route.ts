@@ -1,11 +1,13 @@
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
+import { checkSecurity } from '@/lib/security';
 
 const prisma = new PrismaClient();
 export const dynamic = 'force-dynamic';
 
 // Get all kitchens
-export async function GET() {
+export async function GET(req: Request) {
+    if (await checkSecurity(req) === 'BLOCK') return NextResponse.json({ error: 'Access Denied' }, { status: 403 });
     try {
         const kitchens = await prisma.kitchen.findMany({
             include: {
@@ -36,6 +38,7 @@ export async function POST(req: Request) {
 
 // Update kitchen (Password or Status)
 export async function PATCH(req: Request) {
+    if (await checkSecurity(req) === 'BLOCK') return NextResponse.json({ error: 'Access Denied' }, { status: 403 });
     try {
         const body = await req.json();
         const { id, password, isActive } = body;
