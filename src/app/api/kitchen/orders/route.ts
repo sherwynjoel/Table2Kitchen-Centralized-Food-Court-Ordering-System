@@ -30,13 +30,44 @@ export async function PATCH(req: Request) {
     const body = await req.json();
     const { subOrderId, status } = body;
 
-    const updated = await prisma.subOrder.update({
+    // 1. Update the SubOrder
+    const updatedSubOrder = await prisma.subOrder.update({
         where: { id: subOrderId },
-        data: { status }
+        data: { status },
+        include: { order: true }
     });
 
-    // Note: Socket emission logic would ideally call the server here
-    // For now, client triggers socket event after successful PATCH
+    // 2. Check Parent Order Status
+    const orderId = updatedSubOrder.orderId;
 
-    return NextResponse.json(updated);
+    // Fetch all siblings
+    const allSubOrders = await prisma.subOrder.findMany({
+        where: { orderId: orderId }
+    });
+
+    // Determine new status
+    // Logic: If ALL suborders are SERVED -> COMPLETED
+    // If ANY is PREPARING/READY/SERVED -> IN_PROGRESS
+    // Else -> PENDING
+
+    const allServed = allSubOrders.every(sub => sub.status === 'SERVED');
+    const anyActive = allSubOrders.some(sub => sub.status !== 'PENDING');
+
+    let newOrderStatus = 'PENDING';
+    if (allServed) {
+        newOrderStatus = 'COMPLETED';
+    } else if (anyActive) {
+        newOrderStatus = 'IN_PROGRESS'; // Or 'PREPARING' depending on desired text
+    }
+
+    // Only update if different
+    if (updatedSubOrder.order.status !== newOrderStatus) {
+        await prisma.order.update({
+            where: { id: orderId },
+            data: { status: newOrderStatus }
+        });
+        console.log(`Order #${orderId} status updated to ${newOrderStatus}`);
+    }
+
+    return NextResponse.json(updatedSubOrder);
 }

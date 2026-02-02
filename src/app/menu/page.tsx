@@ -15,7 +15,17 @@ function MenuContent() {
     const [notes, setNotes] = useState('');
 
     useEffect(() => {
-        if (!table) router.push('/');
+        if (!table) {
+            router.push('/');
+            return;
+        }
+
+        // Initialize Session (Occupied state)
+        fetch('/api/orders/init', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ tableNumber: table })
+        }).catch(err => console.error(err));
 
         fetch('/api/products')
             .then(res => res.json())

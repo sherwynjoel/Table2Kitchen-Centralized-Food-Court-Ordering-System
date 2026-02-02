@@ -15,9 +15,17 @@ export default function Home() {
     });
   }, []);
 
-  const handleStart = (e: React.FormEvent) => {
+  const handleStart = async (e: React.FormEvent) => {
     e.preventDefault();
     if (tableNumber) {
+      try {
+        await fetch('/api/orders/init', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tableNumber })
+        });
+      } catch (e) { console.error(e); }
+
       router.push(`/menu?table=${tableNumber}`);
     }
   };

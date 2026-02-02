@@ -37,7 +37,7 @@ export default function KitchenLogin() {
                         placeholder="Username"
                         value={username}
                         onChange={e => setUsername(e.target.value)}
-                        style={{ padding: '0.8rem', outline: 'none', color: 'white', width: '100%', boxSizing: 'border-box' }}
+                        style={{ padding: '0.8rem', outline: 'none', color: 'var(--text-primary)', width: '100%', boxSizing: 'border-box' }}
                     />
                     <input
                         className="glass"
@@ -45,7 +45,7 @@ export default function KitchenLogin() {
                         placeholder="Password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
-                        style={{ padding: '0.8rem', outline: 'none', color: 'white', width: '100%', boxSizing: 'border-box' }}
+                        style={{ padding: '0.8rem', outline: 'none', color: 'var(--text-primary)', width: '100%', boxSizing: 'border-box' }}
                     />
                     {error && <p style={{ color: 'var(--error)', fontSize: '0.9rem' }}>{error}</p>}
                     <button className="btn btn-primary" type="submit" style={{ width: '100%' }}>Login</button>

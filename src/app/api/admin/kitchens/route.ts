@@ -34,6 +34,29 @@ export async function POST(req: Request) {
     }
 }
 
+// Update kitchen (Password or Status)
+export async function PATCH(req: Request) {
+    try {
+        const body = await req.json();
+        const { id, password, isActive } = body;
+
+        if (!id) return NextResponse.json({ error: 'Missing ID' }, { status: 400 });
+
+        const data: any = {};
+        if (password) data.password = password;
+        if (isActive !== undefined) data.isActive = isActive;
+
+        const updated = await prisma.kitchen.update({
+            where: { id: parseInt(id) },
+            data: data
+        });
+
+        return NextResponse.json(updated);
+    } catch (error) {
+        return NextResponse.json({ error: 'Failed to update kitchen' }, { status: 500 });
+    }
+}
+
 // Delete kitchen
 export async function DELETE(req: Request) {
     try {

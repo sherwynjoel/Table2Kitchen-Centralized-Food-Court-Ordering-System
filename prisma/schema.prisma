@@ -17,6 +17,7 @@ model Kitchen {
   password  String
   products  Product[]
   subOrders SubOrder[]
+  isActive  Boolean    @default(true)
 }
 
 model Category {

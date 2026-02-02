@@ -15,7 +15,7 @@ export default function AdminTables() {
         // Auto refresh every 30s
         const interval = setInterval(() => {
             fetch('/api/admin/tables').then(res => res.json()).then(setTables);
-        }, 30000);
+        }, 5000);
 
         return () => clearInterval(interval);
     }, []);

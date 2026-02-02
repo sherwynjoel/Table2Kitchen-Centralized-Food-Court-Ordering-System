@@ -9,6 +9,35 @@ export default function AdminMenu() {
     const [kitchens, setKitchens] = useState<any[]>([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState<any>(null);
+    const [uploading, setUploading] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
+
+    useEffect(() => {
+        if (editingProduct) {
+            setImageUrl(editingProduct.image || '');
+        } else {
+            setImageUrl('');
+        }
+    }, [editingProduct]);
+
+    const handleUpload = async (e: any) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploading(true);
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const res = await fetch('/api/admin/upload', { method: 'POST', body: formData });
+            const data = await res.json();
+            if (data.url) setImageUrl(data.url);
+        } catch (error) {
+            console.error('Upload failed', error);
+        } finally {
+            setUploading(false);
+        }
+    };
 
     useEffect(() => {
         fetch('/api/products').then(res => res.json()).then(setProducts);
@@ -88,15 +117,35 @@ export default function AdminMenu() {
                     position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
                     background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100
                 }}>
-                    <div className="glass-card" style={{ width: '400px', background: '#1e293b' }}>
+                    <div className="glass-card" style={{ width: '400px', background: 'var(--surface)' }}>
                         <h2>{editingProduct ? 'Edit Product' : 'Add Product'}</h2>
                         <form onSubmit={handleSave} className="flex-col" style={{ marginTop: '1rem' }}>
-                            <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" className="glass" required style={{ padding: '0.8rem', color: 'white' }} />
-                            <input name="price" type="number" step="0.01" defaultValue={editingProduct?.price} placeholder="Price" className="glass" required style={{ padding: '0.8rem', color: 'white' }} />
-                            <input name="description" defaultValue={editingProduct?.description} placeholder="Description" className="glass" style={{ padding: '0.8rem', color: 'white' }} />
-                            <input name="image" defaultValue={editingProduct?.image} placeholder="Image URL" className="glass" style={{ padding: '0.8rem', color: 'white' }} />
+                            <input name="name" defaultValue={editingProduct?.name} placeholder="Product Name" className="glass" required style={{ padding: '0.8rem', color: 'var(--text-primary)' }} />
+                            <input name="price" type="number" step="0.01" defaultValue={editingProduct?.price} placeholder="Price" className="glass" required style={{ padding: '0.8rem', color: 'var(--text-primary)' }} />
+                            <input name="description" defaultValue={editingProduct?.description} placeholder="Description" className="glass" style={{ padding: '0.8rem', color: 'var(--text-primary)' }} />
+                            <div className="flex-col" style={{ gap: '0.5rem' }}>
+                                <label style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Product Image</label>
+                                <div className="flex-center" style={{ gap: '1rem', justifyContent: 'flex-start' }}>
+                                    {imageUrl && (
+                                        <div style={{
+                                            width: '60px', height: '60px', borderRadius: '0.5rem',
+                                            backgroundImage: `url(${imageUrl})`, backgroundSize: 'cover',
+                                            border: '1px solid var(--border)'
+                                        }}></div>
+                                    )}
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleUpload}
+                                        className="glass"
+                                        style={{ padding: '0.5rem', width: 'auto' }}
+                                    />
+                                    {uploading && <span style={{ fontSize: '0.8rem' }}>Uploading...</span>}
+                                </div>
+                                <input type="hidden" name="image" value={imageUrl} />
+                            </div>
 
-                            <select name="kitchenId" defaultValue={editingProduct?.kitchenId} className="glass" required style={{ padding: '0.8rem', color: 'white', background: '#334155' }}>
+                            <select name="kitchenId" defaultValue={editingProduct?.kitchenId} className="glass" required style={{ padding: '0.8rem', color: 'var(--text-primary)' }}>
                                 <option value="">Select Kitchen</option>
                                 {kitchens.map((k: any) => (
                                     <option key={k.id} value={k.id}>{k.name}</option>

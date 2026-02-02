@@ -1,26 +1,42 @@
 :root {
-  /* Minimalist Palette */
-  --primary: #000000;
-  --secondary: #333333;
-  
-  --background: #ffffff;
+  /* Option B: Soft Peach (Modern Minimalist) */
+  --primary: #ff7e67;
+  /* Coral/Salmon */
+  --primary-hover: #ff6b52;
+  --secondary: #4a4a4a;
+  /* Warm Grey for secondary actions */
+
+  --background: #fffbfb;
+  /* Warm White */
   --surface: #ffffff;
-  --surface-alt: #f9f9f9;
-  
-  --text-primary: #111111;
-  --text-secondary: #555555;
-  --placeholder: #888888;
-  
-  --border: #e0e0e0;
-  --border-strong: #000000;
+  /* Pure White */
+  --surface-alt: #fcece9;
+  /* Very pale peach/grey for inputs */
 
-  --success: #000000; /* Minimalist usage, potentially green only for status dots */
-  --warning: #111111;
-  --error: #cc0000; /* Keep red for critical errors, but sharp */
+  --text-primary: #2d2a2a;
+  /* Deep Warm Grey - softer than black */
+  --text-secondary: #666060;
+  /* Medium Warm Grey */
+  --placeholder: #9ca3af;
 
-  --radius: 0.5rem; /* Sharper corners */
-  
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --border: #f2e8e5;
+  /* Soft Pinkish Grey */
+  --border-strong: #e5bdaf;
+  /* Stronger peach border for hover */
+
+  --success: #10b981;
+  /* Reintroducing Green for success in this softer theme */
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  --radius: 0.75rem;
+  /* Slightly softer corners for this friendly theme */
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+
+  --font-sans: 'Outfit', 'Inter', system-ui, sans-serif;
+  /* Recommend Outfit if available, else Inter */
 }
 
 body {
@@ -33,12 +49,13 @@ body {
 }
 
 /* Utilities */
-.glass, .glass-card {
-  /* Renamed essentially to 'card', keeping class name for compatibility */
+.glass,
+.glass-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  /* No drop shadow for flat look, or very subtle one */
+  box-shadow: var(--shadow-sm);
+  /* Using shadow for this theme instead of flat borders */
 }
 
 .glass-card {
@@ -48,7 +65,9 @@ body {
 
 .glass-card:hover {
   transform: translateY(-2px);
-  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
+  /* Highlight with Coral on hover */
 }
 
 /* Modern Layouts */
@@ -58,28 +77,71 @@ body {
   padding: 2rem;
 }
 
-.grid-cols-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-.grid-cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
 
-.flex-center { display: flex; align-items: center; justify-content: center; }
-.flex-between { display: flex; align-items: center; justify-content: space-between; }
-.flex-col { display: flex; flex-direction: column; gap: 1rem; }
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 /* Typography */
-h1, h2, h3 { 
-  margin: 0; 
-  font-weight: 800; 
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 700;
   color: var(--text-primary);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
 }
-h1 { font-size: 3rem; line-height: 1.1; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.25rem; font-weight: 600; }
-p { line-height: 1.6; color: var(--text-secondary); }
+
+h1 {
+  font-size: 2.5rem;
+  line-height: 1.1;
+  color: var(--text-primary);
+}
+
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+p {
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
 
 /* Inputs */
-input, select, textarea {
-  background: var(--surface-alt);
+input,
+select,
+textarea {
+  background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text-primary);
   padding: 0.75rem 1rem;
@@ -87,11 +149,15 @@ input, select, textarea {
   font-family: inherit;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 126, 103, 0.1);
+  /* Soft glow */
   background: white;
 }
 
@@ -100,25 +166,26 @@ input:focus, select:focus, textarea:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.875rem 2rem;
+  padding: 0.75rem 1.5rem;
   border-radius: var(--radius);
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
   border: none;
   font-size: 1rem;
-  letter-spacing: -0.01em;
 }
 
 .btn-primary {
   background: var(--primary);
   color: white;
   border: 1px solid var(--primary);
+  box-shadow: 0 2px 4px rgba(255, 126, 103, 0.2);
 }
 
 .btn-primary:hover {
-  background: #222;
+  background: var(--primary-hover);
   transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(255, 126, 103, 0.3);
 }
 
 .btn-ghost {
@@ -129,21 +196,37 @@ input:focus, select:focus, textarea:focus {
 
 .btn-ghost:hover {
   border-color: var(--primary);
-  background: var(--surface-alt);
+  color: var(--primary);
+  background: rgba(255, 126, 103, 0.05);
+  /* Slight tint */
 }
 
 /* Status Badges */
 .badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border: 1px solid var(--border);
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
 }
 
 /* Animations */
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.animate-in { animation: fadeIn 0.4s ease-out forwards; }
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
