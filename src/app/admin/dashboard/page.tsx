@@ -68,7 +68,7 @@ export default function AdminDashboard() {
                 </div>
             </header>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 3fr) minmax(300px, 1fr)', gap: '2rem', alignItems: 'start' }}>
+            <div className="admin-dashboard-grid">
                 {/* LEFT COLUMN: Main Dashboard */}
                 <div className="flex-col">
                     {/* Alerts */}
@@ -157,7 +157,7 @@ export default function AdminDashboard() {
                     </div>
 
                     {/* Management Links */}
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem' }}>
+                    <div className="management-grid">
                         <div
                             onClick={() => router.push('/admin/menu')}
                             className="glass-card flex-center flex-col"
@@ -216,6 +216,21 @@ export default function AdminDashboard() {
                             }}></div>
                             <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Reports</h2>
                             <p style={{ fontSize: '0.9rem', opacity: 0.7 }}>Kitchen Payouts</p>
+                            <div style={{ fontSize: '1.5rem', marginTop: '0.5rem' }}>→</div>
+                        </div>
+                        <div
+                            onClick={() => router.push('/admin/security')}
+                            className="glass-card flex-center flex-col"
+                            style={{
+                                cursor: 'pointer', height: '180px', textAlign: 'center',
+                                justifyContent: 'center', position: 'relative', overflow: 'hidden'
+                            }}
+                        >
+                            <div style={{
+                                position: 'absolute', top: 0, left: 0, width: '4px', height: '100%', background: 'var(--primary)'
+                            }}></div>
+                            <h2 style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>Security</h2>
+                            <p style={{ fontSize: '0.9rem', opacity: 0.7 }}>Manage Admin Access</p>
                             <div style={{ fontSize: '1.5rem', marginTop: '0.5rem' }}>→</div>
                         </div>
                     </div>

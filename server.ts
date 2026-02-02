@@ -2,6 +2,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import next from 'next';
+import { networkInterfaces } from 'os';
 
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
@@ -75,5 +76,16 @@ app.prepare().then(() => {
   const PORT = process.env.PORT || 3000;
   httpServer.listen(PORT, () => {
     console.log(`> Ready on http://localhost:${PORT}`);
+
+    // Print Network IP
+    const nets = networkInterfaces();
+    for (const name of Object.keys(nets)) {
+      // @ts-ignore
+      for (const net of nets[name]) {
+        if (net.family === 'IPv4' && !net.internal) {
+          console.log(`> Network access: http://${net.address}:${PORT}`);
+        }
+      }
+    }
   });
 });

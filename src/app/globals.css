@@ -89,6 +89,20 @@ body {
   gap: 1rem;
 }
 
+/* Admin Specific */
+.admin-dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  align-items: start;
+}
+
+.management-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
 .flex-center {
   display: flex;
   align-items: center;
@@ -229,4 +243,59 @@ textarea:focus {
 
 .animate-in {
   animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (Screen Optimization)
+   ========================================= */
+
+@media (max-width: 1024px) {
+  .admin-dashboard-grid {
+    grid-template-columns: 1fr;
+    /* Stack sidebar on tablets/mobile */
+  }
+
+  .management-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .management-grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  .grid-cols-2,
+  .grid-cols-3 {
+    grid-template-columns: 1fr;
+    /* Stack all grids */
+  }
+
+  /* Stack flex containers that are usually headers */
+  .flex-between {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Ensure inputs are easy to tap */
+  input,
+  select,
+  .btn {
+    padding: 0.8rem;
+    /* Larger touch target */
+  }
+
+  /* Hide sidebar in Dashboard if needed, or put it on top */
 }

@@ -20,6 +20,13 @@ model Kitchen {
   isActive  Boolean    @default(true)
 }
 
+model SystemSetting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique // e.g., 'ALLOWED_IP'
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
 model Category {
   id       Int       @id @default(autoincrement())
   name     String
